@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+ul {
+  list-style-type: none;
+  padding-left:0rem !important;
+}
+.ag-theme-alpine-dark{
+  margin-bottom: 5px;
+}
+
+select, button{
+  margin-left:5px;
+}
+
+/* .VolcanoTitle{
+  margin-left: 16px;
+} */
