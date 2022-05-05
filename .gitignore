@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# Untracked files:
+/components/CountriesTest.jsx
+
 # testing
 /coverage
 
