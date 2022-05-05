@@ -8,8 +8,15 @@ const headers = {
   Authorization: `Bearer ${token}`,
 };
 
+//should login and register go here?
+
 export function getVolcanoesByCountry(country) {
   const url = `${API_URL}/volcanoes?country=${country}`; //returns an array of JSON
+  return fetch(url).then((res) => res.json());
+}
+
+export function getVolcanoesByCountryPop(country, population) {
+  const url = `${API_URL}/volcanoes?country=${country}&populatedWithin=${population}km`; //returns an array of JSON
   return fetch(url).then((res) => res.json());
 }
 
@@ -44,11 +51,27 @@ export function useVolcanoesByCountry(country) {
       });
   }, [country]);
 
-  return {
-    loading,
-    volcanoes,
-    error,
-  };
+  return { loading, volcanoes, error };
+}
+
+export function useVolcanoesByCountryPop(country, population) {
+  const [loading2, setLoading] = useState(true);
+  const [volcanoesPop, setVolcanoes] = useState([]);
+  const [error2, setError] = useState(null);
+  useEffect(() => {
+    getVolcanoesByCountryPop(country, population)
+      .then((volcanoes) => {
+        setVolcanoes(volcanoes);
+      })
+      .catch((e) => {
+        setError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [country, population]);
+
+  return { loading2, volcanoesPop, error2 };
 }
 
 export function useVolcanoesById(id) {

@@ -1,14 +1,19 @@
-import React from "react";
 import { useState } from "react";
-import Container from "react-bootstrap/esm/Container";
-import Col from "react-bootstrap/esm/Col";
-import Row from "react-bootstrap/esm/Row";
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://sefdb02.qut.edu.au:3001"
 
-export default function Register(){
+export default function Register(props){
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const navigate = useNavigate();
+
+    if (props.isAuth){
+        navigate("/volcanoeslist")
+    }
 
     function register(){
         const url = `${API_URL}/user/register`

@@ -1,18 +1,37 @@
 import { useVolcanoesByCountry } from "../api";
+import { useVolcanoesByCountryPop } from "../api";
 import { AgGridReact } from "ag-grid-react";
 import { useNavigate } from "react-router-dom";
-import React, { useCallback, useMemo, useRef } from "react";
+import Spinner from "react-bootstrap/Spinner"
+import React, { useCallback, useMemo, useRef, useEffect, useState } from "react";
 
 export default function Volcanoes(props) {
+
+  //how to only call one or the other, depending on the presence of props.popDistance?
+  // if (props.country){
+  //   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
+  // }
+  // else if (props.country && props.popDistance){
+  //   const { loading, volcanoes, error } = useVolcanoesByCountryPop(props.country, props.popDistance);
+  // }
   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
+  const { loading2, volcanoesPop, error2 } = useVolcanoesByCountryPop(props.country, props.popDistance);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const navigate = useNavigate();
   const gridRef = useRef();
-
+  const [filteredVolcanoes, setFilteredVolcanoes] = useState();
   const onFirstDataRendered = useCallback((params) => {
     gridRef.current.api.sizeColumnsToFit();
   }, []);
+
+  useEffect(() => {
+    if (props.popDistance) {
+      setFilteredVolcanoes(volcanoesPop);
+    } else {
+      setFilteredVolcanoes(volcanoes);
+    }
+  }, [filteredVolcanoes, props.popDistance, volcanoes, volcanoesPop]);
 
   const table = {
     columns: [
@@ -23,12 +42,12 @@ export default function Volcanoes(props) {
     ],
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
+  if (loading || loading2) {
+    return <Spinner animation="border" />;
   }
 
-  if (error) {
-    return <p>Something fucked up: {error.message}</p>;
+  if (error || error2) {
+    return <p>Something went wrong: {error.message}</p>;
   }
 
   return (
@@ -44,7 +63,7 @@ export default function Volcanoes(props) {
               ref={gridRef}
               key={props.country}
               columnDefs={table.columns}
-              rowData={volcanoes}
+              rowData={filteredVolcanoes}
               pagination={true}
               paginationPageSize={9}
               onRowClicked={(row) => navigate(`/volcano?id=${row.data.id}`)}

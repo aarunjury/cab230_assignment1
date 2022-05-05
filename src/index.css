@@ -24,6 +24,6 @@ select, button{
   margin-left:5px;
 }
 
-/* .VolcanoTitle{
-  margin-left: 16px;
-} */
+.form-label{
+  margin-right:0.5rem;
+}

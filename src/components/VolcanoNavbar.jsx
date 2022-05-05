@@ -1,21 +1,19 @@
 import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import Icon from "../img/icon.png";
+import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
-import React, { useContext } from "react";
-import { AuthContext } from "./contexts/AuthContext";
+import Icon from "../img/icon.png";
+import { useNavigate } from "react-router-dom";
 
-export default function VolcanoNavbar({ isAuth }) {
-  // const token = localStorage.getItem("token");
-  const { auth, setAuth } = useContext(AuthContext);
-  // const auth = false;
+export default function VolcanoNavbar(props) {
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   setUtoken(localStorage.getItem("token"));
-  // }, [token]);
+  function logout() {
+    props.setIsAuth(false);
+    localStorage.removeItem("token", null);
+    navigate("/");
+  }
 
-  // if (props.uToken) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -36,9 +34,9 @@ export default function VolcanoNavbar({ isAuth }) {
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/volcanoeslist">All Volcanoes</Nav.Link>
-              {auth && <Nav.Link href="/logout">Logout</Nav.Link>}
-              {!auth && <Nav.Link href="/register">Register</Nav.Link>}
-              {!auth && <Nav.Link href="/login">Login</Nav.Link>}
+              {props.isAuth && <Nav.Link onClick={logout}>Logout</Nav.Link>}
+              {!props.isAuth && <Nav.Link href="/register">Register</Nav.Link>}
+              {!props.isAuth && <Nav.Link href="/login">Login</Nav.Link>}
             </Nav>
           </Navbar.Collapse>
         </Col>
