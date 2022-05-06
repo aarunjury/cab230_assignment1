@@ -2,11 +2,10 @@ import { useVolcanoesByCountry } from "../api";
 import { useVolcanoesByCountryPop } from "../api";
 import { AgGridReact } from "ag-grid-react";
 import { useNavigate } from "react-router-dom";
-import Spinner from "react-bootstrap/Spinner"
+import Loading from "../components/Loading"
 import React, { useCallback, useMemo, useRef, useEffect, useState } from "react";
 
 export default function Volcanoes(props) {
-
   //how to only call one or the other, depending on the presence of props.popDistance?
   // if (props.country){
   //   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
@@ -35,15 +34,24 @@ export default function Volcanoes(props) {
 
   const table = {
     columns: [
-      { headerName: "ID", field: "id" },
-      { headerName: "Volcano Name", field: "name" },
-      { headerName: "Region", field: "region" },
-      { headerName: "Sub-Region", field: "subregion" },
+      { headerName: "ID", field: "id", sortable: true },
+      { headerName: "Volcano Name", field: "name", filter: true, filterParams: {
+        filterOptions: ['contains', 'startsWith', 'endsWith'],
+        defaultOption: 'startsWith',
+      } },
+      { headerName: "Region", field: "region", filter: true, filterParams: {
+        filterOptions: ['contains', 'startsWith', 'endsWith'],
+        defaultOption: 'startsWith',
+      } },
+      { headerName: "Sub-Region", field: "subregion", filter: true, filterParams: {
+        filterOptions: ['contains', 'startsWith', 'endsWith'],
+        defaultOption: 'startsWith',
+      } },
     ],
   };
 
   if (loading || loading2) {
-    return <Spinner animation="border" />;
+    return <Loading />;
   }
 
   if (error || error2) {

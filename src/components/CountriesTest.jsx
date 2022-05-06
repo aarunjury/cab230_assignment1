@@ -1,12 +1,12 @@
 
 //best but formatting is whack
 import { useCountries } from "../api";
+import Loading from "../components/Loading"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/Spinner"
 import { useState } from "react";
 
 export default function Countries(props) {
@@ -16,7 +16,7 @@ export default function Countries(props) {
   const [ popDistance, setPopDistance ] = useState();
 
   if (loading) {
-    return <Spinner animation="border" />;
+    return <Loading />
   }
 
   if (error) {
@@ -190,7 +190,7 @@ export default function Countries(props) {
                 props.setCountry(country);
               }}
               >
-              Search
+              Go
               </Button>
             </Col>
           </Row>

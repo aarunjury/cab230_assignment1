@@ -1,9 +1,9 @@
 import { useVolcanoesById } from "../api";
+import Loading from "../components/Loading"
 import { Map, Marker } from "pigeon-maps";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Spinner from "react-bootstrap/Spinner"
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import React from "react";
@@ -40,14 +40,12 @@ export default function Volcano(props) {
   };
 
   if (loading) {
-    return <Spinner animation="border" />;
+    return <Loading />;
   }
 
   if (error) {
-    return <p>Something went wrong: {error.message}</p>; //return a route or something to a 404 page
+    return <p>Something went wrong: {error.message}</p>; //useNavigate to 404 page?
   }
-
-  // if (props.isAuth && volcano.population_5km) - make <Pie /> take these two props
 
   return (
     <div>

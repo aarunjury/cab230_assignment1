@@ -1,10 +1,10 @@
 import { useCountries } from "../api";
+import Loading from "../components/Loading"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/Spinner"
 import { useState } from "react";
 
 export default function Countries(props) {
@@ -14,7 +14,7 @@ export default function Countries(props) {
   const [ popDistance, setPopDistance ] = useState();
 
   if (loading) {
-    return <Spinner animation="border" />;
+    return <Loading />
   }
 
   if (error) {
@@ -56,12 +56,29 @@ export default function Countries(props) {
             ))}
           </Form.Select>
         </Col>
+        {/* Content conditional on props.isAuth being false follows */}
 
-        {/* Content conditional on props.isAuth follows */}
+        {!props.isAuth && (
+          <Col xs={3} className="d-flex justify-content-start align-self-center mr-2">
+            <Button
+              size="sm"
+              className="float-sm-end"
+              variant="secondary"
+              type="submit"
+              onClick={() => {
+                props.setCountry(country);
+              }}
+            >
+              Go
+            </Button>
+          </Col>
+        )}
+
+        {/* Content conditional on props.isAuth being true follows */}
 
         {props.isAuth && (
           <Col
-            xs={2}
+            xs={3}
             className="d-flex justify-content-center align-self-center text-nowrap"
           >
             <Form.Label>Populated Within:</Form.Label>
@@ -96,45 +113,30 @@ export default function Countries(props) {
             </Button>
           </Col>
         )}
-        {props.isAuth && (
-          <Col className="d-flex justify-content-end align-self-center"> 
-            <Form className="d-flex">
-              <FormControl
-                type="search"
-                name="search"
-                id="search"
-                placeholder="Search by country"
-                className="me-2"
-                aria-label="Search"
-                value={innerSearch}
-                onChange={(e) => setInnerSearch(e.target.value)}
-              />
-              <Button
-                size="sm"
-                className="float-sm-end"
-                variant="secondary"
-                onClick={() => props.setSearch(innerSearch)}
-              >
-                Search
-              </Button>
-            </Form>
-          </Col>        
-        )}
-        {!props.isAuth && (
-          <Col xs={9}>
+        
+        {/* No more conditional rendering */}
+        <Col className="d-flex justify-content-end align-self-center"> 
+          <Form className="d-flex">
+            <FormControl
+              type="search"
+              name="search"
+              id="search"
+              placeholder="Search by country"
+              className="me-2"
+              aria-label="Search"
+              value={innerSearch}
+              onChange={(e) => setInnerSearch(e.target.value)}
+            />
             <Button
               size="sm"
               className="float-sm-end"
               variant="secondary"
-              type="submit"
-              onClick={() => {
-                props.setCountry(country);
-              }}
+              onClick={() => props.setSearch(innerSearch)}
             >
               Search
             </Button>
-          </Col>
-        )}
+          </Form>
+        </Col>        
       </Row>
       <br></br>
     </div>
