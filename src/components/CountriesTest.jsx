@@ -84,7 +84,6 @@ export default function Countries(props) {
             </Col>
             <Col xs={2} className="col-3 d-flex align-self-center">
               <Button
-                size="sm"
                 className="float-sm-end"
                 variant="secondary"
                 type="submit"
@@ -109,7 +108,6 @@ export default function Countries(props) {
                 onChange={(e) => setInnerSearch(e.target.value)}
               />
               <Button
-                size="sm"
                 className="float-sm-end"
                 variant="secondary"
                 onClick={() => props.setSearch(innerSearch)}
@@ -171,7 +169,6 @@ export default function Countries(props) {
                   onChange={(e) => setInnerSearch(e.target.value)}
                 />
                 <Button
-                  size="sm"
                   className="float-sm-end"
                   variant="secondary"
                   onClick={() => props.setSearch(innerSearch)}
@@ -182,7 +179,6 @@ export default function Countries(props) {
             </Col>   
             <Col xs={9}>
               <Button
-              size="sm"
               className="float-sm-end"
               variant="secondary"
               type="submit"

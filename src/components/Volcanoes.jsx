@@ -7,12 +7,16 @@ import React, { useCallback, useMemo, useRef, useEffect, useState } from "react"
 
 export default function Volcanoes(props) {
   //how to only call one or the other, depending on the presence of props.popDistance?
+  //can't conditionally call a custom hook. Conditionally call a function with a hook?
+  //can't put hooks in functions that aren't components though can you?
+
   // if (props.country){
   //   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
   // }
   // else if (props.country && props.popDistance){
   //   const { loading, volcanoes, error } = useVolcanoesByCountryPop(props.country, props.popDistance);
   // }
+  
   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
   const { loading2, volcanoesPop, error2 } = useVolcanoesByCountryPop(props.country, props.popDistance);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

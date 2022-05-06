@@ -27,9 +27,9 @@ export default function Home(){
               <p>
                 If you register with Volcanoes of the World, you'll also be able to access information
                 about the number of people living within a given radius of a volcano. Additionally,
-                you'll get to see a really cool pie chart of that same information! What are you waiting for?!
+                you'll get to see a really cool pie chart of that same information! What are you waiting for?! 
+                <br></br>Click <Link to="/register">here</Link> to get started.
               </p>
-              <p>Click <Link to="/register">here</Link> to get started.</p>
             </Row>
             </Col>
             <Col>

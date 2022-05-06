@@ -3,15 +3,23 @@ import Loading from "../components/Loading"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl"
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
+import Select from 'react-select'
 
 export default function Countries(props) {
   const { loading, countries, error } = useCountries();
-  const [ innerSearch, setInnerSearch] = useState("");
   const [ country, setCountry] = useState();
   const [ popDistance, setPopDistance ] = useState();
+  //React-select options expects an array of objects with
+  //value-label pairs so this function does that
+  const countryOptions = countries.map((volcano) => {
+    return {
+        value: volcano,
+        label: volcano
+      }
+    }
+  );
 
   if (loading) {
     return <Loading />
@@ -21,47 +29,34 @@ export default function Countries(props) {
     return <p>Something went wrong: {error.message}</p>;
   }
 
-  //   onChange function adapted from 'gdh' @ https://stackoverflow.com/a/61862224
   return (
     <div className="Countries">
       <br></br>
       <Row>
         <Col xs={7}>
         <h1>Volcanoes of the World</h1>
-        <p>Use the drop-down menu to see all volcanoes in a given country. Optionally, 
-        if you are registered and logged in, you can also use the "Populated Within" menu in conjunction with Country. 
+        <p>You can begin by either typing the name of a country or selecting one from the drop-down menu 
+        to see all the volcanoes in a given country. Optionally, if you are registered and 
+        logged in, you can also use the "Populated Within" menu in conjunction with Country. 
         This will return the volcanoes that have people living within the specified radius of the volcano.
         </p>
-        <p>Alternatively, you can try searching by typing the name of a country.</p>
         </Col>
       </Row>
       <hr></hr>
       <Row>
-        <Col xs={3} className="d-flex justify-content-start align-self-center mr-2">
-          <Form.Label >Country:</Form.Label>
-          <Form.Select
-            size="sm"
-            label="Country:"
-            onChange={(e) => {
-              setCountry(e.target.value);
-              setInnerSearch("")
+        <Col xs={3}>
+          <Select label="Country:" placeholder="Choose a country"options={countryOptions}
+          onChange={(e) => {
+              setCountry(e.value);
               props.setSearch("")
-            }}
-          >
-            <option>Choose a country from the list</option>
-            {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </Form.Select>
+            }} />
         </Col>
+
         {/* Content conditional on props.isAuth being false follows */}
 
         {!props.isAuth && (
           <Col xs={3} className="d-flex justify-content-start align-self-center mr-2">
             <Button
-              size="sm"
               className="float-sm-end"
               variant="secondary"
               type="submit"
@@ -81,15 +76,14 @@ export default function Countries(props) {
             xs={3}
             className="d-flex justify-content-center align-self-center text-nowrap"
           >
-            <Form.Label>Populated Within:</Form.Label>
+            <Form.Label className="d-flex justify-content-center align-self-center text-nowrap">Populated Within:</Form.Label>
             <Form.Select
-              size="sm"
               label="Populated Within:"
               onChange={(e) => {
                 setPopDistance(e.target.value);
               }}
             >
-              <option value={null}>-</option>
+              <option value={""}>-</option>
               <option value={5}>5km</option>
               <option value={10}>10km</option>
               <option value={30}>30km</option>
@@ -100,7 +94,6 @@ export default function Countries(props) {
         {props.isAuth && (
           <Col xs={2} className="col-3 d-flex align-self-center">
             <Button
-              size="sm"
               className="float-sm-end"
               variant="secondary"
               type="submit"
@@ -113,30 +106,6 @@ export default function Countries(props) {
             </Button>
           </Col>
         )}
-        
-        {/* No more conditional rendering */}
-        <Col className="d-flex justify-content-end align-self-center"> 
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              name="search"
-              id="search"
-              placeholder="Search by country"
-              className="me-2"
-              aria-label="Search"
-              value={innerSearch}
-              onChange={(e) => setInnerSearch(e.target.value)}
-            />
-            <Button
-              size="sm"
-              className="float-sm-end"
-              variant="secondary"
-              onClick={() => props.setSearch(innerSearch)}
-            >
-              Search
-            </Button>
-          </Form>
-        </Col>        
       </Row>
       <br></br>
     </div>

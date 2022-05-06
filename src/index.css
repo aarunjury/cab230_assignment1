@@ -27,3 +27,7 @@ select, button{
 .form-label{
   margin-right:0.5rem;
 }
+
+.btn-secondary{
+  width:75px;
+}
