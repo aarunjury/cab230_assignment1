@@ -5,7 +5,7 @@ export default function Footer() {
     <MDBFooter className="bg-dark text-center text-white text-lg-left">
       <div className="bg-dark text-center p-3 fixed-bottom">
         &copy; {new Date().getFullYear()} Copyright: {"Aarun Jury - n9691693 "}
-        <a className="text-white" href="https://votw.com/">
+        <a className="text-white" href="/">
           VotW.com
         </a>
       </div>

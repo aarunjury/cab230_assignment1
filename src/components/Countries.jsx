@@ -35,7 +35,7 @@ export default function Countries(props) {
       <Row>
         <Col xs={7}>
         <h1>Volcanoes of the World</h1>
-        <p>You can begin by either typing the name of a country or selecting one from the drop-down menu 
+        <p>You can begin by either typing the name of a country in, or selecting one from the drop-down menu 
         to see all the volcanoes in a given country. Optionally, if you are registered and 
         logged in, you can also use the "Populated Within" menu in conjunction with Country. 
         This will return the volcanoes that have people living within the specified radius of the volcano.
@@ -48,7 +48,6 @@ export default function Countries(props) {
           <Select label="Country:" placeholder="Choose a country"options={countryOptions}
           onChange={(e) => {
               setCountry(e.value);
-              props.setSearch("")
             }} />
         </Col>
 

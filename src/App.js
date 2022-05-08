@@ -8,13 +8,11 @@ import VolcanoDetail from "./pages/VolcanoDetail";
 import VolcanoNavbar from "./components/VolcanoNavbar";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Fourohfour from "./components/Fourohfour";
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
-  const [search, setSearch] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,20 +30,20 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/volcanoeslist"
-              element={
-                <VolcanoesList
-                  setSearch={setSearch}
-                  searchQuery={search}
-                  isAuth={isAuth}
-                />
-              }
+              element={<VolcanoesList isAuth={isAuth} />}
             />
             <Route
               path="/volcano"
               element={<VolcanoDetail isAuth={isAuth} />}
             />
-            <Route path="/register" element={<Register isAuth={isAuth} />} />
-            <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
+            <Route
+              path="/register"
+              element={<Login heading={"Sign Up"} setIsAuth={setIsAuth} />}
+            />
+            <Route
+              path="/login"
+              element={<Login heading={"Sign In"} setIsAuth={setIsAuth} />}
+            />
             <Route path="*" element={<Fourohfour />} />
           </Routes>
         </main>

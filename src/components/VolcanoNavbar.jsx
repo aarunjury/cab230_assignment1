@@ -31,12 +31,16 @@ export default function VolcanoNavbar(props) {
         <Col className="d-flex align-items-end flex-column">
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/volcanoeslist">All Volcanoes</Nav.Link>
-              {props.isAuth && <Nav.Link onClick={logout}>Logout</Nav.Link>}
-              {!props.isAuth && <Nav.Link href="/register">Register</Nav.Link>}
-              {!props.isAuth && <Nav.Link href="/login">Login</Nav.Link>}
+            <Nav variant="tabs" defaultActiveKey="/" className="me-auto" onSelect={(selectedKey) => navigate(`${selectedKey}`)}>
+              <Nav.Item>
+                <Nav.Link href="/">Home</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="/volcanoeslist">All Volcanoes</Nav.Link>
+              </Nav.Item>
+              {props.isAuth && <Nav.Item><Nav.Link onClick={logout}>Logout</Nav.Link></Nav.Item>}
+              {!props.isAuth && <Nav.Item><Nav.Link eventKey="/register" >Register</Nav.Link></Nav.Item>}
+              {!props.isAuth && <Nav.Item><Nav.Link eventKey="/login" >Login</Nav.Link></Nav.Item>}
             </Nav>
           </Navbar.Collapse>
         </Col>

@@ -1,5 +1,19 @@
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Loading from "./Loading"
+
 export default function Fourohfour(){
     return(
-        <p><h1>Oh no! Something went wrong. Please go home.</h1></p>
+        <Container>
+            <Row>
+                <Col>
+                    <h1>Oh no! Something went wrong. Taking you home...</h1>
+                </Col>
+            </Row>
+            <Row>
+                <Loading />
+            </Row>
+        </Container>
     )
 }

@@ -5,12 +5,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import React from "react";
 
 export default function Volcano(props) {
   const { loading, volcano, error } = useVolcanoesById(props.id);
-  ChartJS.register(ArcElement, Tooltip, Legend);
+  Chart.register(ArcElement, Tooltip, Legend);
   const data = {
     labels: ["Red - 5km", "Orange - 10km", "Yellow - 30km", "Purple - 100km"],
     datasets: [

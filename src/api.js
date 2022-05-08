@@ -22,6 +22,7 @@ export function getVolcanoesByCountryPop(country, population) {
 
 export function getVolcanoById(id) {
   const url = `${API_URL}/volcano/${id}`; //returns JSON only
+  //if logged in, send the fetch request with the authorisation header
   if (token !== null) {
     return fetch(url, { headers }).then((res) => res.json());
   }
@@ -39,16 +40,21 @@ export function useVolcanoesByCountry(country) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getVolcanoesByCountry(country)
-      .then((volcanoes) => {
-        setVolcanoes(volcanoes);
-      })
-      .catch((e) => {
-        setError(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (country === undefined) {
+      console.log("Don't fetch");
+      setLoading(false);
+    } else {
+      getVolcanoesByCountry(country)
+        .then((volcanoes) => {
+          setVolcanoes(volcanoes);
+        })
+        .catch((e) => {
+          setError(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [country]);
 
   return { loading, volcanoes, error };
@@ -58,17 +64,27 @@ export function useVolcanoesByCountryPop(country, population) {
   const [loading2, setLoading] = useState(true);
   const [volcanoesPop, setVolcanoes] = useState([]);
   const [error2, setError] = useState(null);
+
   useEffect(() => {
-    getVolcanoesByCountryPop(country, population)
-      .then((volcanoes) => {
-        setVolcanoes(volcanoes);
-      })
-      .catch((e) => {
-        setError(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (
+      country === undefined ||
+      population === undefined ||
+      population === ""
+    ) {
+      console.log("Don't fetch");
+      setLoading(false);
+    } else {
+      getVolcanoesByCountryPop(country, population)
+        .then((volcanoes) => {
+          setVolcanoes(volcanoes);
+        })
+        .catch((e) => {
+          setError(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [country, population]);
 
   return { loading2, volcanoesPop, error2 };
