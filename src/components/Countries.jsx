@@ -91,7 +91,7 @@ export default function Countries(props) {
           </Col>
         )}
         {props.isAuth && (
-          <Col xs={2} className="col-3 d-flex align-self-center">
+          <Col xs={2} className="d-flex align-self-center">
             <Button
               className="float-sm-end"
               variant="secondary"

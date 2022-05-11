@@ -16,7 +16,6 @@ export default function Volcanoes(props) {
   // else if (props.country && props.popDistance){
   //   const { loading, volcanoes, error } = useVolcanoesByCountryPop(props.country, props.popDistance);
   // }
-
   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
   const { loading2, volcanoesPop, error2 } = useVolcanoesByCountryPop(props.country, props.popDistance);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);

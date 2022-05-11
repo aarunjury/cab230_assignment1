@@ -4,125 +4,113 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
+import Alert from "react-bootstrap/Alert"
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading"
 
 const API_URL = "http://sefdb02.qut.edu.au:3001"
+let urlSuffix = ''
 
 export default function Login(props){
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ loading, setLoading ] = useState(false);
+    const [ error, setError ] = useState(null);
     const navigate = useNavigate();
-    console.log("Props.heading is: " + props.heading);
 
-    function login(event){
-        const url = `${API_URL}/user/login`;
+    if (loading) {
+        return <Loading />
+    }
+
+    if (props.heading === "Sign In"){
+        urlSuffix = 'login'
+    }
+    else {
+        urlSuffix = 'register'
+    }
+
+    function auth(event){
+        const url = `${API_URL}/user/${urlSuffix}`;
         event.preventDefault();
-
+        setLoading(true);
         return fetch(url, {
             method: "POST",
             headers: { accept: "application/json", "Content-Type": "application/json" },
             body: JSON.stringify({email, password}),
         })
-        .then(res => res.json()
         .then(res => {
-            localStorage.setItem("token", res.token)
-            props.setIsAuth(true)
-        }))
-        .then(navigate("/"))
-        .catch((err) => {
-            console.error(err);
-            alert('An error occurred, please try again later.');
-          })
-    }
-
-    function register(event){
-        const url = `${API_URL}/user/register`
-        event.preventDefault();
-
-        return fetch(url, {
-            method: "POST",
-            headers: { accept: "application/json", "Content-Type": "application/json" },
-            body: JSON.stringify({email, password})
+        if (!res.ok){
+            if (res.status === 400){
+                throw Error("Both email and password are required fields")
+            }
+            else if (res.status === 401){
+                throw Error("Incorrect email address or password was provided!")
+            }
+            else if (res.status === 409){
+                throw Error("Couldn't create user")
+            }
+        }
+            return res.json();
         })
-        .then(res => res.json())
+        .then(data => {
+            setLoading(false);
+            localStorage.setItem("token", data.token)
+            console.log(data.token)
+            props.setIsAuth(true)
+            navigate("/")
+            setError(null);
+        })
+        .catch(err => {
+            // Clear error after 4 seconds so the error message
+            // does not persist between screens
+            setLoading(false);
+            setError(err);
+            setTimeout(() => {
+                setError(null);
+            },4000); 
+            console.log(err);
+        })
+        .finally(() => {
+            setLoading(false);
+        })
     }
 
-    if (props.heading === "Sign In"){
-        return(
-            <Container>
-            <Row className="justify-content-center">
-                <Col xs={4}>
-                    <br></br>
-                    <div className="shadow p-2 bg-white rounded">
-                        <Row>
-                            <h3>{props.heading}</h3>
-                        </Row>
-                        <Row>
-                            <Form>
-                                <Row>
-                                    <Form.Group className="mb-3" controlId="loginEmail">
-                                        <Form.Label>Email address:</Form.Label>
-                                        <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group className="mb-3" controlId="loginPassword">
-                                        <Form.Label>Password:</Form.Label>
-                                        <Form.Control type="password" placeholder="Enter password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group  >
-                                        <Button className="float-end" variant="secondary" type="submit" onClick={(e) => {login(e)}}>
-                                            Submit
-                                        </Button>
-                                    </Form.Group>
-                                </Row>
-                            </Form>
-                        </Row>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-        )
-    }
-    else {
-        return(
-            <Container>
-                <Row className="justify-content-center">
-                    <Col xs={4}>
-                        <br></br>
-                        <div className="shadow p-2 bg-white rounded">
+    return(
+        <Container>
+        <Row className="justify-content-center">
+            <Col xs={4}>
+                <br></br>
+                <div className="shadow p-2 bg-white rounded">
+                    <Row>
+                        <h3>{props.heading}</h3>
+                        {error && <Alert variant={'danger'}>{error.message}</Alert>}
+                    </Row>
+                    <Row>
+                        <Form>
                             <Row>
-                                <h3>{props.heading}</h3>
+                                <Form.Group className="mb-3" controlId="loginEmail">
+                                    <Form.Label>Email address:</Form.Label>
+                                    <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
+                                </Form.Group>
                             </Row>
                             <Row>
-                                <Form>
-                                    <Row>
-                                        <Form.Group className="mb-3" controlId="loginEmail">
-                                            <Form.Label>Email address:</Form.Label>
-                                            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
-                                        </Form.Group>
-                                    </Row>
-                                    <Row>
-                                        <Form.Group className="mb-3" controlId="loginPassword">
-                                            <Form.Label>Password:</Form.Label>
-                                            <Form.Control type="password" placeholder="Enter password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
-                                        </Form.Group>
-                                    </Row>
-                                    <Row>
-                                        <Form.Group  >
-                                            <Button className="float-end" variant="secondary" type="submit" onClick={(e) => {register(e)}}>
-                                                Submit
-                                            </Button>
-                                        </Form.Group>
-                                    </Row>
-                                </Form>
+                                <Form.Group className="mb-3" controlId="loginPassword">
+                                    <Form.Label>Password:</Form.Label>
+                                    <Form.Control type="password" placeholder="Enter password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
+                                </Form.Group>
                             </Row>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-        )
-    }
+                            <Row>
+                                <Form.Group  >
+                                    <Button className="float-end" variant="secondary" type="submit" onClick={(e) => {auth(e)}}>
+                                        Submit
+                                    </Button>
+                                </Form.Group>
+                            </Row>
+                        </Form>
+                    </Row>
+                </div>
+            </Col>
+        </Row>
+    </Container>
+    )
 }

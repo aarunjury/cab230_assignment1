@@ -41,7 +41,6 @@ export function useVolcanoesByCountry(country) {
 
   useEffect(() => {
     if (country === undefined) {
-      console.log("Don't fetch");
       setLoading(false);
     } else {
       getVolcanoesByCountry(country)
@@ -71,7 +70,6 @@ export function useVolcanoesByCountryPop(country, population) {
       population === undefined ||
       population === ""
     ) {
-      console.log("Don't fetch");
       setLoading(false);
     } else {
       getVolcanoesByCountryPop(country, population)

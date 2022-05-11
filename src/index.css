@@ -44,3 +44,9 @@ select, button{
   border-color:#6c757d !important;
   border-bottom-color: #212529 !important;
 }
+
+.ag-theme-alpine-dark .ag-select .ag-picker-field-display, 
+.ag-theme-alpine-dark .ag-list-item .ag-active-item,
+.ag-theme-alpine-dark .ag-select-list-item span{
+  color: white !important;
+}
