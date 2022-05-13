@@ -8,7 +8,7 @@ export default function Fourohfour(){
         <Container>
             <Row>
                 <Col>
-                    <h1>Oh no! Something went wrong. Taking you home...</h1>
+                    <h1>Oh no! Something went wrong. Return to the home page and try again.</h1>
                 </Col>
             </Row>
             <Row>

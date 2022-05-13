@@ -8,8 +8,6 @@ const headers = {
   Authorization: `Bearer ${token}`,
 };
 
-//should login and register go here?
-
 export function getVolcanoesByCountry(country) {
   const url = `${API_URL}/volcanoes?country=${country}`; //returns an array of JSON
   return fetch(url).then((res) => res.json());
@@ -55,7 +53,6 @@ export function useVolcanoesByCountry(country) {
         });
     }
   }, [country]);
-
   return { loading, volcanoes, error };
 }
 
@@ -84,7 +81,6 @@ export function useVolcanoesByCountryPop(country, population) {
         });
     }
   }, [country, population]);
-
   return { loading2, volcanoesPop, error2 };
 }
 

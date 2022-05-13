@@ -13,13 +13,13 @@ import Fourohfour from "./components/Fourohfour";
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       setIsAuth(true);
     }
-  }, []);
+  }, [token]);
 
   return (
     <BrowserRouter>
@@ -36,10 +36,7 @@ export default function App() {
               path="/volcano"
               element={<VolcanoDetail isAuth={isAuth} />}
             />
-            <Route
-              path="/register"
-              element={<Login heading={"Sign Up"} setIsAuth={setIsAuth} />}
-            />
+            <Route path="/register" element={<Login heading={"Sign Up"} />} />
             <Route
               path="/login"
               element={<Login heading={"Sign In"} setIsAuth={setIsAuth} />}

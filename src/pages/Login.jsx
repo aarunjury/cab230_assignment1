@@ -9,14 +9,16 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading"
 
 const API_URL = "http://sefdb02.qut.edu.au:3001"
-let urlSuffix = ''
 
 export default function Login(props){
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ loading, setLoading ] = useState(false);
     const [ error, setError ] = useState(null);
+    const [ userCreated, setUserCreated] = useState(null);
     const navigate = useNavigate();
+    let urlSuffix = ''
+    let loggingIn  = null;
 
     if (loading) {
         return <Loading />
@@ -24,9 +26,11 @@ export default function Login(props){
 
     if (props.heading === "Sign In"){
         urlSuffix = 'login'
+        loggingIn = true
     }
     else {
         urlSuffix = 'register'
+        loggingIn = false
     }
 
     function auth(event){
@@ -54,11 +58,29 @@ export default function Login(props){
         })
         .then(data => {
             setLoading(false);
-            localStorage.setItem("token", data.token)
-            console.log(data.token)
-            props.setIsAuth(true)
-            navigate("/")
             setError(null);
+            //If we're registering, don't want to set token and isAuth
+            if (loggingIn){
+                setUserCreated("Logging you in...")
+                setLoading(true)
+                localStorage.setItem("token", data.token)
+                console.log(data.token)
+                props.setIsAuth(true)
+                setTimeout(() => {
+                    setUserCreated(null)
+                    setLoading(false)
+                    navigate("/")
+                },1000);
+            } 
+            else {
+                setUserCreated("User created successfully, taking you to login...")
+                setLoading(true)
+                setTimeout(() => {
+                    setUserCreated(null)
+                    setLoading(false)
+                    navigate("/login")
+                },3000);
+            }
         })
         .catch(err => {
             // Clear error after 4 seconds so the error message
@@ -84,6 +106,8 @@ export default function Login(props){
                     <Row>
                         <h3>{props.heading}</h3>
                         {error && <Alert variant={'danger'}>{error.message}</Alert>}
+                        {userCreated && <Alert variant={'success'}>{userCreated}</Alert>}
+                        {userCreated && <Loading />}
                     </Row>
                     <Row>
                         <Form>
