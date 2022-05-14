@@ -5,17 +5,10 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading"
 import React, { useCallback, useMemo, useRef, useEffect, useState } from "react";
 
+// This component is the lower half of the VolcanoesList page and contains the AgGrid
+// table and fetches the appropriate array of volcanoes according to the search params
 export default function Volcanoes(props) {
-  //how to only call one or the other, depending on the presence of props.popDistance?
-  //can't conditionally call a custom hook. Conditionally call a function with a hook?
-  //can't put hooks in functions that aren't components though can you?
-
-  // if (props.country){
-  //   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
-  // }
-  // else if (props.country && props.popDistance){
-  //   const { loading, volcanoes, error } = useVolcanoesByCountryPop(props.country, props.popDistance);
-  // }
+  // Would be good to conditionally call ByCountry or ByCountryPop, not both by default
   const { loading, volcanoes, error } = useVolcanoesByCountry(props.country);
   const { loading2, volcanoesPop, error2 } = useVolcanoesByCountryPop(props.country, props.popDistance);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -27,6 +20,8 @@ export default function Volcanoes(props) {
     gridRef.current.api.sizeColumnsToFit();
   }, []);
 
+  // If the user does choose a populated radius
+  // set the array of volcanoes accordingly
   useEffect(() => {
     if (props.popDistance) {
       setFilteredVolcanoes(volcanoesPop);
@@ -53,12 +48,8 @@ export default function Volcanoes(props) {
     ],
   };
 
-  if (loading) {
+  if (loading || loading2) {
     return <Loading />;
-  }
-
-  if (loading2){
-    return <Loading/>
   }
 
   if (error || error2) {

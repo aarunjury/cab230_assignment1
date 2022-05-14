@@ -8,6 +8,7 @@ import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import React from "react";
 
+// Component which returns the data for a single volcano
 export default function Volcano(props) {
   const { loading, volcano, error } = useVolcanoesById(props.id);
   Chart.register(ArcElement, Tooltip, Legend);
@@ -44,7 +45,7 @@ export default function Volcano(props) {
   }
 
   if (error) {
-    return <p>Something went wrong: {error.message}</p>; //useNavigate to 404 page?
+    return <p>Something went wrong: {error.message}</p>;
   }
 
   return (
@@ -108,7 +109,7 @@ export default function Volcano(props) {
           </Row>
         </Container>
       </div>
-      {props.isAuth && (
+      {props.isLoggedIn && (
         <div className="popChart shadow p-3 mb-5 bg-white rounded">
           <Row>
             <Col>

@@ -5,11 +5,12 @@ import Col from "react-bootstrap/Col";
 import Icon from "../img/icon.png";
 import { useNavigate } from "react-router-dom";
 
+// Component for the sitewide navbar - contains logout function for when clicked
 export default function VolcanoNavbar(props) {
   const navigate = useNavigate();
 
   function logout() {
-    props.setIsAuth(false);
+    props.setIsLoggedIn(false);
     localStorage.removeItem("token", null);
     navigate("/");
   }
@@ -38,9 +39,9 @@ export default function VolcanoNavbar(props) {
               <Nav.Item>
                 <Nav.Link eventKey="/volcanoeslist">All Volcanoes</Nav.Link>
               </Nav.Item>
-              {props.isAuth && <Nav.Item><Nav.Link onClick={logout}>Logout</Nav.Link></Nav.Item>}
-              {!props.isAuth && <Nav.Item><Nav.Link eventKey="/register" >Register</Nav.Link></Nav.Item>}
-              {!props.isAuth && <Nav.Item><Nav.Link eventKey="/login" >Login</Nav.Link></Nav.Item>}
+              {props.isLoggedIn && <Nav.Item><Nav.Link onClick={logout}>Logout</Nav.Link></Nav.Item>}
+              {!props.isLoggedIn && <Nav.Item><Nav.Link eventKey="/register" >Register</Nav.Link></Nav.Item>}
+              {!props.isLoggedIn && <Nav.Item><Nav.Link eventKey="/login" >Login</Nav.Link></Nav.Item>}
             </Nav>
           </Navbar.Collapse>
         </Col>

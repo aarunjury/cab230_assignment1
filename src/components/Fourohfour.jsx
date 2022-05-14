@@ -3,6 +3,7 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Loading from "./Loading"
 
+// 404 page for any undefined routes
 export default function Fourohfour(){
     return(
         <Container>

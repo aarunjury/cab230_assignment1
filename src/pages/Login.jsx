@@ -8,8 +8,10 @@ import Alert from "react-bootstrap/Alert"
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading"
 
-const API_URL = "http://sefdb02.qut.edu.au:3001"
-
+// Originally a login component - name is legacy
+// This component renders either a registration or login page, depending on the route
+// (selected route passes a 'heading' prop to determine)
+// All API queries for reg/logging in are made here
 export default function Login(props){
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
@@ -17,6 +19,7 @@ export default function Login(props){
     const [ error, setError ] = useState(null);
     const [ userCreated, setUserCreated] = useState(null);
     const navigate = useNavigate();
+    const API_URL = "http://sefdb02.qut.edu.au:3001"
     let urlSuffix = ''
     let loggingIn  = null;
 
@@ -59,13 +62,13 @@ export default function Login(props){
         .then(data => {
             setLoading(false);
             setError(null);
-            //If we're registering, don't want to set token and isAuth
+            // If we're registering, don't want to set isLoggedIn
+            // or store token as we don't yet have a token
             if (loggingIn){
                 setUserCreated("Logging you in...")
                 setLoading(true)
                 localStorage.setItem("token", data.token)
-                console.log(data.token)
-                props.setIsAuth(true)
+                props.setIsLoggedIn(true)
                 setTimeout(() => {
                     setUserCreated(null)
                     setLoading(false)
@@ -84,13 +87,12 @@ export default function Login(props){
         })
         .catch(err => {
             // Clear error after 4 seconds so the error message
-            // does not persist between screens
+            // does not persist forever
             setLoading(false);
             setError(err);
             setTimeout(() => {
                 setError(null);
             },4000); 
-            console.log(err);
         })
         .finally(() => {
             setLoading(false);

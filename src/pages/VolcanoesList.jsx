@@ -5,6 +5,7 @@ import Countries from "../components/Countries"
 import Volcanoes from "../components/Volcanoes"
 import { useState } from "react";
 
+// Component for the page that renders the table of volcanoes matching search query
 export default function VolcanoesList(props) {
     const [selectedCountry, setCountry] = useState();
     const [popDistance, setPopDistance] = useState();
@@ -14,7 +15,7 @@ export default function VolcanoesList(props) {
             <Container>
                 <Row>
                     <Col>
-                        <Countries isAuth={props.isAuth} country={selectedCountry} setCountry={setCountry}
+                        <Countries isLoggedIn={props.isLoggedIn} country={selectedCountry} setCountry={setCountry}
                          popDistance={popDistance} setPopDistance={setPopDistance} />
                     </Col>
                 </Row>

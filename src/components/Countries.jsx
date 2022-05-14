@@ -7,6 +7,9 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import Select from 'react-select'
 
+// Function which holds a single row on the VolcanoesList page
+// containing the 'Country' dropdown/search component, 'populated within'
+// and search button
 export default function Countries(props) {
   const { loading, countries, error } = useCountries();
   const [ country, setCountry] = useState();
@@ -51,9 +54,9 @@ export default function Countries(props) {
             }} />
         </Col>
 
-        {/* Content conditional on props.isAuth being false follows */}
+        {/* Content conditional on props.isLoggedIn being false follows */}
 
-        {!props.isAuth && (
+        {!props.isLoggedIn && (
           <Col xs={3} className="d-flex justify-content-start align-self-center mr-2">
             <Button
               className="float-sm-end"
@@ -68,9 +71,9 @@ export default function Countries(props) {
           </Col>
         )}
 
-        {/* Content conditional on props.isAuth being true follows */}
+        {/* Content conditional on props.isLoggedIn being true follows */}
 
-        {props.isAuth && (
+        {props.isLoggedIn && (
           <Col
             xs={3}
             className="d-flex justify-content-center align-self-center text-nowrap"
@@ -90,7 +93,7 @@ export default function Countries(props) {
             </Form.Select>
           </Col>
         )}
-        {props.isAuth && (
+        {props.isLoggedIn && (
           <Col xs={2} className="d-flex align-self-center">
             <Button
               className="float-sm-end"

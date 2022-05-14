@@ -10,36 +10,63 @@ import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Fourohfour from "./components/Fourohfour";
+import { createBrowserHistory } from "history";
 
 export default function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = localStorage.getItem("token");
+  const history = createBrowserHistory();
+  const parsedToken = parseToken(token);
 
-  useEffect(() => {
-    if (token) {
-      setIsAuth(true);
+  // function to parse the JWT token for expiry time
+  function parseToken(jwtoken) {
+    if (jwtoken) {
+      try {
+        return JSON.parse(atob(jwtoken.split(".")[1]));
+      } catch (error) {
+        // ignore
+      }
     }
-  }, [token]);
 
+    return null;
+  }
+
+  // Will fire on all page loads to continuously check if the token
+  // has expired and if so, redirect to login
+  useEffect(() => {
+    if (parsedToken) {
+      if (parsedToken.exp * 1000 > Date.now()) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        localStorage.removeItem("token", null);
+        history.push("/login");
+      }
+    }
+  }, [history, parsedToken]);
+
+  // BrowserRouter and all page routes plus navbar and footer
   return (
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <div className="App">
-        <VolcanoNavbar isAuth={isAuth} setIsAuth={setIsAuth} />
+        <VolcanoNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
               path="/volcanoeslist"
-              element={<VolcanoesList isAuth={isAuth} />}
+              element={<VolcanoesList isLoggedIn={isLoggedIn} />}
             />
             <Route
               path="/volcano"
-              element={<VolcanoDetail isAuth={isAuth} />}
+              element={<VolcanoDetail isLoggedIn={isLoggedIn} />}
             />
             <Route path="/register" element={<Login heading={"Sign Up"} />} />
             <Route
               path="/login"
-              element={<Login heading={"Sign In"} setIsAuth={setIsAuth} />}
+              element={
+                <Login heading={"Sign In"} setIsLoggedIn={setIsLoggedIn} />
+              }
             />
             <Route path="*" element={<Fourohfour />} />
           </Routes>

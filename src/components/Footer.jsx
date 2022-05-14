@@ -1,5 +1,6 @@
 import { MDBFooter } from "mdb-react-ui-kit";
 
+// Sitewide footer
 export default function Footer() {
   return (
     <MDBFooter className="bg-dark text-center text-white text-lg-left">

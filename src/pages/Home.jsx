@@ -5,9 +5,10 @@ import Image from "react-bootstrap/Image"
 import HeroImage from "../img/heroVolcano.jpg"
 import { Link } from "react-router-dom";
 
+// Component for the Home page
 export default function Home(){
     return(
-        <div className="HomePage">
+        <div className="HomePageContents">
         <br></br>
         <Container>
           <Row>
