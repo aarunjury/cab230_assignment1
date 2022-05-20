@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import Select from 'react-select'
+import Alert from "react-bootstrap/Alert"
 
 // Function which holds a single row on the VolcanoesList page
 // containing the 'Country' dropdown/search component, 'populated within'
@@ -24,14 +25,6 @@ export default function Countries(props) {
     }
   );
 
-  if (loading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <p>Something went wrong: {error.message}</p>;
-  }
-
   return (
     <div className="Countries">
       <br></br>
@@ -47,34 +40,18 @@ export default function Countries(props) {
       </Row>
       <hr></hr>
       <Row>
+      <Row>
+        {(loading) && 
+          <Loading />}
+        {(error) && <Alert variant={'danger'}>{error.message}</Alert>}
+      </Row>
         <Col xs={3}>
           <Select label="Country:" placeholder="Choose a country"options={countryOptions}
           onChange={(e) => {
               setCountry(e.value);
             }} />
         </Col>
-
-        {/* Content conditional on props.isLoggedIn being false follows */}
-
-        {!props.isLoggedIn && (
-          <Col xs={3} className="d-flex justify-content-start align-self-center mr-2">
-            <Button
-              className="float-sm-end"
-              variant="secondary"
-              type="submit"
-              onClick={() => {
-                props.setCountry(country);
-              }}
-            >
-              Go
-            </Button>
-          </Col>
-        )}
-
-        {/* Content conditional on props.isLoggedIn being true follows */}
-
-        {props.isLoggedIn && (
-          <Col
+        <Col
             xs={3}
             className="d-flex justify-content-center align-self-center text-nowrap"
           >
@@ -92,8 +69,6 @@ export default function Countries(props) {
               <option value={100}>100km</option>
             </Form.Select>
           </Col>
-        )}
-        {props.isLoggedIn && (
           <Col xs={2} className="d-flex align-self-center">
             <Button
               className="float-sm-end"
@@ -107,7 +82,6 @@ export default function Countries(props) {
               Go
             </Button>
           </Col>
-        )}
       </Row>
       <br></br>
     </div>
