@@ -6,16 +6,16 @@ import Volcanoes from "../components/Volcanoes"
 import { useState } from "react";
 
 // Component for the page that renders the table of volcanoes matching search query
-export default function VolcanoesList(props) {
-    const [selectedCountry, setCountry] = useState();
-    const [popDistance, setPopDistance] = useState();
+export default function VolcanoesList() {
+    const [ selectedCountry, setCountry ] = useState();
+    const [ popDistance, setPopDistance ] = useState();
 
     return (
         <div className = "VolcanoesList">
             <Container>
                 <Row>
                     <Col>
-                        <Countries isLoggedIn={props.isLoggedIn} country={selectedCountry} setCountry={setCountry}
+                        <Countries country={selectedCountry} setCountry={setCountry}
                          popDistance={popDistance} setPopDistance={setPopDistance} />
                     </Col>
                 </Row>

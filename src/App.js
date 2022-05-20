@@ -22,7 +22,7 @@ export default function App() {
   function parseToken(jwtoken) {
     if (jwtoken) {
       try {
-        return JSON.parse(atob(jwtoken.split(".")[1]));
+        return JSON.parse(jwtoken.split(".")[1]);
       } catch (error) {
         // ignore
       }
@@ -53,10 +53,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/volcanoeslist"
-              element={<VolcanoesList isLoggedIn={isLoggedIn} />}
-            />
+            <Route path="/volcanoeslist" element={<VolcanoesList />} />
             <Route
               path="/volcano"
               element={<VolcanoDetail isLoggedIn={isLoggedIn} />}

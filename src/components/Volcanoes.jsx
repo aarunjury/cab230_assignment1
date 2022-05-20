@@ -4,6 +4,8 @@ import { AgGridReact } from "ag-grid-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading"
 import React, { useCallback, useMemo, useRef, useEffect, useState } from "react";
+import Row from "react-bootstrap/Row";
+import Alert from "react-bootstrap/Alert"
 
 // This component is the lower half of the VolcanoesList page and contains the AgGrid
 // table and fetches the appropriate array of volcanoes according to the search params
@@ -48,13 +50,6 @@ export default function Volcanoes(props) {
     ],
   };
 
-  if (loading || loading2) {
-    return <Loading />;
-  }
-
-  if (error || error2) {
-    return <p>Something went wrong: {error.message}</p>;
-  }
 
   return (
     <div
@@ -62,22 +57,30 @@ export default function Volcanoes(props) {
       className="ag-theme-alpine-dark"
       style={{ width: "100%", height: "495px" }}
     >
-      <div style={containerStyle}>
-        <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
-          <div style={gridStyle} className="ag-theme-alpine-dark">
-            <AgGridReact
-              ref={gridRef}
-              key={props.country}
-              columnDefs={table.columns}
-              rowData={filteredVolcanoes}
-              pagination={true}
-              paginationPageSize={9}
-              onRowClicked={(row) => navigate(`/volcano?id=${row.data.id}`)}
-              onFirstDataRendered={onFirstDataRendered}
-            />
+      <Row>
+        {(loading || loading2) && 
+          <Loading />
+        }
+        {(error || error2) && <Alert variant={'danger'}>{error.message}</Alert>}
+      </Row>
+      <Row>
+        <div style={containerStyle}>
+          <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
+            <div style={gridStyle} className="ag-theme-alpine-dark">
+              <AgGridReact
+                ref={gridRef}
+                key={props.country}
+                columnDefs={table.columns}
+                rowData={filteredVolcanoes}
+                pagination={true}
+                paginationPageSize={9}
+                onRowClicked={(row) => navigate(`/volcano?id=${row.data.id}`)}
+                onFirstDataRendered={onFirstDataRendered}
+              />
+            </div>
           </div>
         </div>
-      </div>
+    </Row>
     </div>
   );
 }
