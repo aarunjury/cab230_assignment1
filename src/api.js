@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_URL = "http://sefdb02.qut.edu.au:3001";
+const API_URL = "http://volcanoesapi.aarun.info";
 const token = localStorage.getItem("token");
 const headers = {
   accept: "application/json",
@@ -21,10 +21,15 @@ export function getVolcanoesByCountryPop(country, population) {
 export function getVolcanoById(id) {
   const url = `${API_URL}/volcano/${id}`; //returns JSON only
   //if logged in, send the fetch request with the authorisation header
-  if (token !== null) {
-    return fetch(url, { headers }).then((res) => res.json());
-  }
-  return fetch(url).then((res) => res.json());
+  // if (token !== null) {
+  //   return fetch(url, { headers }).then((res) => res.json());
+  // }
+  // return fetch(url).then((res) => res.json());
+  return token !== null ? fetch(url, {
+    headers
+  })
+  .then((res => res.json())) : 
+  fetch(url).then((res) => res.json())
 }
 
 export function getCountries() {

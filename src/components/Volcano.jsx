@@ -11,6 +11,8 @@ import React from "react";
 // Component which returns the data for a single volcano
 export default function Volcano(props) {
   const { loading, volcano, error } = useVolcanoesById(props.id);
+  const token = localStorage.getItem('token');
+
   Chart.register(ArcElement, Tooltip, Legend);
   const data = {
     labels: ["Red - 5km", "Orange - 10km", "Yellow - 30km", "Purple - 100km"],
@@ -109,7 +111,7 @@ export default function Volcano(props) {
           </Row>
         </Container>
       </div>
-      {props.isLoggedIn && (
+      {token && (
         <div className="popChart shadow p-3 mb-5 bg-white rounded">
           <Row>
             <Col>

@@ -19,7 +19,7 @@ export default function Login(props){
     const [ error, setError ] = useState(null);
     const [ userCreated, setUserCreated] = useState(null);
     const navigate = useNavigate();
-    const API_URL = "http://sefdb02.qut.edu.au:3001"
+    const API_URL = "http://volcanoesapi.aarun.info"
     let urlSuffix = ''
     let loggingIn  = null;
 

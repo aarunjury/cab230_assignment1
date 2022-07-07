@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 // Component for the sitewide navbar - contains logout function for when clicked
 export default function VolcanoNavbar(props) {
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   function logout() {
     props.setIsLoggedIn(false);
@@ -39,9 +40,9 @@ export default function VolcanoNavbar(props) {
               <Nav.Item>
                 <Nav.Link eventKey="/volcanoeslist">All Volcanoes</Nav.Link>
               </Nav.Item>
-              {props.isLoggedIn && <Nav.Item><Nav.Link onClick={logout}>Logout</Nav.Link></Nav.Item>}
-              {!props.isLoggedIn && <Nav.Item><Nav.Link eventKey="/register" >Register</Nav.Link></Nav.Item>}
-              {!props.isLoggedIn && <Nav.Item><Nav.Link eventKey="/login" >Login</Nav.Link></Nav.Item>}
+              {token && <Nav.Item><Nav.Link onClick={logout}>Logout</Nav.Link></Nav.Item>}
+              {!token && <Nav.Item><Nav.Link eventKey="/register" >Register</Nav.Link></Nav.Item>}
+              {!token && <Nav.Item><Nav.Link eventKey="/login" >Login</Nav.Link></Nav.Item>}
             </Nav>
           </Navbar.Collapse>
         </Col>

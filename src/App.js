@@ -13,37 +13,37 @@ import Fourohfour from "./components/Fourohfour";
 import { createBrowserHistory } from "history";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const token = localStorage.getItem("token");
   const history = createBrowserHistory();
-  const parsedToken = parseToken(token);
-
-  // function to parse the JWT token for expiry time
-  function parseToken(jwtoken) {
-    if (jwtoken) {
-      try {
-        return JSON.parse(jwtoken.split(".")[1]);
-      } catch (error) {
-        // ignore
-      }
-    }
-
-    return null;
-  }
+  //const parsedToken = parseToken(token);
+  
+  // console.log("Is logged in:"+isLoggedIn)
+  // // function to parse the JWT token for expiry time
+  // function parseToken(jwtoken) {
+  //   if (jwtoken) {
+  //     try {
+  //       return JSON.parse(jwtoken.split(".")[1]);
+  //     } catch (error) {
+  //       // ignore
+  //     }
+  //   }
+  //   return null;
+  // }
 
   // Will fire on all page loads to continuously check if the token
   // has expired and if so, redirect to login
-  useEffect(() => {
-    if (parsedToken) {
-      if (parsedToken.exp * 1000 > Date.now()) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-        localStorage.removeItem("token", null);
-        history.push("/login");
-      }
-    }
-  }, [history, parsedToken]);
+  // useEffect(() => {
+  //   if (token) {
+  //     if (parsedToken.exp * 1000 < Date.now()) {
+  //       setIsLoggedIn(false);
+  //       localStorage.removeItem("token", null);
+  //       history.push("/login");
+  //     } else {
+  //       setIsLoggedIn(true)
+  //     }
+  //   }
+  // }, [history, parsedToken, token]);
 
   // BrowserRouter and all page routes plus navbar and footer
   return (

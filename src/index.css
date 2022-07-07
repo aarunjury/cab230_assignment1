@@ -64,3 +64,11 @@ select, button{
 
   background-color: rgba(255, 255, 255, 0.7);
 }
+
+.Footer{
+  margin-top: 55px;
+}
+
+.popChart{
+  margin-bottom:25px;
+}

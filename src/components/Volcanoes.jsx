@@ -4,7 +4,6 @@ import { AgGridReact } from "ag-grid-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading"
 import React, { useCallback, useMemo, useRef, useEffect, useState } from "react";
-import Row from "react-bootstrap/Row";
 import Alert from "react-bootstrap/Alert"
 
 // This component is the lower half of the VolcanoesList page and contains the AgGrid
@@ -50,6 +49,13 @@ export default function Volcanoes(props) {
     ],
   };
 
+  if (loading || loading2){
+    return <Loading/>
+  }
+
+  if (error || error2){
+    return <Alert variant={'danger'}>{error.message}</Alert>
+  }
 
   return (
     <div
@@ -57,13 +63,6 @@ export default function Volcanoes(props) {
       className="ag-theme-alpine-dark"
       style={{ width: "100%", height: "495px" }}
     >
-      <Row>
-        {(loading || loading2) && 
-          <Loading />
-        }
-        {(error || error2) && <Alert variant={'danger'}>{error.message}</Alert>}
-      </Row>
-      <Row>
         <div style={containerStyle}>
           <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
             <div style={gridStyle} className="ag-theme-alpine-dark">
@@ -80,7 +79,6 @@ export default function Volcanoes(props) {
             </div>
           </div>
         </div>
-    </Row>
     </div>
   );
 }

@@ -24,6 +24,7 @@ export default function VolcanoesList() {
                         <Volcanoes popDistance={popDistance} country={selectedCountry} />
                     </Col>
                 </Row>
+                {/* <Row><br></br><br></br></Row> */}
             </Container>
         </div>
     )
