@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 // Component for the Home page
 export default function Home(){
+
     return(
         <div className="HomePageContents">
         <br></br>
